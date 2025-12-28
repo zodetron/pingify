@@ -48,7 +48,7 @@ export async function signup(req,res){
 
 
 
-        const token = jwt.sign({userId: User._id},process.env.JWT_SECRET_KEY,{
+        const token = jwt.sign({userId: newUser._id},process.env.JWT_SECRET_KEY,{
             expiresIn : "7d"
         });
 
@@ -122,15 +122,32 @@ export async function onboard(req,res){
                 !nativeLanguage && "nativeLanguage",
                 !learningLanguage && "learningLanguage",
                 !location && "location",
-                ],
+                ].filter(Boolean),
             });
         }
-        const updatedUser = await User.findById(userId,{
+        const updatedUser = await User.findByIdAndUpdate(
+        userId,
+        {
             ...req.body,
-            isOnboarded:true,
-        },{new:true})
+            isOnboarded: true,
+        },
+        { new: true }
+        );
 
         if(!updatedUser) return res.status(404).json({message:"User not found"});
+
+        try {
+            await upsertStreamUser({
+            id:updatedUser._id.toString(),
+            name: updatedUser.fullName,
+            image: updatedUser.profilePic ||"",
+        })
+
+        console.log(`Stream user updated after onboarding for ${updatedUser.fullName}`);
+            
+        } catch (streamError) {
+        console.log("error updating stream user during onboarding",streamError);            
+        }
 
         res.status(200).json({success:true, user:updatedUser});
     } catch (error) {
