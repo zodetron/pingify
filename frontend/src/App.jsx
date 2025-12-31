@@ -20,7 +20,7 @@ import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 const App = () => {
   //transtack query
   const{data:authData,isLoading,error,}=useQuery({
-    queryKey:["autUser"],
+    queryKey:["authUser"],
 
     queryFn: async () =>{
       const res = await axiosInstance.get("/auth/me");
@@ -32,15 +32,13 @@ const App = () => {
   const authUser = authData?.user
   return (
     <div className='h-screen' data-theme="night">
-      <DotLottieReact
-      src="./public/chatani.json"
-      loop
-      autoplay
-    />
+
     <Routes>
-      <Route path="/" element ={<HomePage/> } />
-      <Route path="/signup" element ={authUser ?<SignupPage/>:<Navigate to="/"/> } />
-      <Route path="/login" element ={authUser ?<LoginPage/>:<Navigate to="/"/>} />
+      {/* <Route path="/test" element={<SignupPage/>}/> */}
+
+      <Route path="/" element ={authUser?<HomePage/> : <Navigate to="/"/>  } />
+      <Route path="/signup" element ={!authUser ?<SignupPage/>:<Navigate to="/"/> } />
+      <Route path="/login" element ={!authUser ?<LoginPage/>:<Navigate to="/"/>} />
       <Route path="/notifications" element ={authUser ?<NotificationsPage/>:<Navigate to="/login"/>} />
       <Route path="/call" element ={authUser ?<CallPage/>:<Navigate to="/login"/>} />
       <Route path="/chat" element ={authUser ?<ChatPage/>:<Navigate to="/login"/>} />

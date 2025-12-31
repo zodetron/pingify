@@ -55,7 +55,7 @@ export async function signup(req,res){
         res.cookie("jwt",token,{
             maxAge: 7*24*60*60*1000, //7days but should be in format of milliseconds
             httpOnly:true, //prevent XXS attacks
-            sameSite : "strict", //prevent CSRF attacks
+            sameSite : "lax", //prevent CSRF attacks
             secure: process.env.NODE_ENV === "production"
         });
 
