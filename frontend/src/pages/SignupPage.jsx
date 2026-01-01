@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import {ShipWheelIcon} from "lucide-react";
+import { ShipWheelIcon} from "lucide-react";
 import {Link} from "react-router";
 
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { axiosInstance } from '../lib/axios';
-import { signupfrontend } from '../lib/api';
+import { signup } from '../lib/api';
 
 const SignupPage = () => {
 
@@ -17,14 +16,14 @@ const SignupPage = () => {
 
   const queryClient = useQueryClient()
 
-  const {mutate,isPending,error} = useMutation({
-    mutationFn: async() =>signupfrontend,
-    onSuccess:() => queryClient.invalidateQueries({queryKey:["authUser"]}),
+  const {mutate:signupMutation,isPending,error} = useMutation({
+    mutationFn: async(data) =>signup(data),
+    onSuccess:() => queryClient.invalidateQueries({queryKey:["me"]}),
   });
 
   const handleSignup = (e) =>{
     e.preventDefault();  //no reload on submit
-    mutate(signupData);
+    signupMutation(signupData);
   }
 
   return (
@@ -38,6 +37,13 @@ const SignupPage = () => {
         <ShipWheelIcon className='size-9 text-primary'/>
         <span className='text-3xl font-bold font-mono bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary tracking-wider'>Pingify</span>
       </div>
+
+      {/* Error Message IF ANY */}
+      {error && ( 
+        <div className='alert alert-error mb-4'>
+          <span>{error.response.data.message}</span>
+        </div>
+      )}
 
       <div className='w-full'>
         <form onSubmit={handleSignup}>
@@ -109,7 +115,14 @@ const SignupPage = () => {
           </div>
 
           <button className='btn btn-primary w-full 'type="submit">
-            {isPending ? "Signing up..." : "Sign up"}
+            {isPending ? (
+              <>
+              <span className='loading loading-spinner loading-xs'></span>
+              Loading...
+              </>
+            ) : (
+              "Create Account"
+            )}
           </button>
 
           <div className='text-center mt-4'>
