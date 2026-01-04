@@ -7,10 +7,12 @@ import NotificationsPage from "./pages/NotificationsPage.jsx";
 import CallPage from "./pages/CallPage.jsx";
 import ChatPage from "./pages/ChatPage.jsx";
 import OnboardingPage from "./pages/OnboardingPage.jsx";
+import Layout from './components/Layout.jsx';
 
 import {Toaster} from "react-hot-toast";
 import PageLoader from './components/PageLoader.jsx';
 import useAuthUser from './hooks/useAuthUser.js';
+
 
 
 const App = () => {
@@ -31,11 +33,11 @@ const App = () => {
     <Routes>
       {/* <Route path="/test" element={<SignupPage/>}/> */}
 
-      <Route path="/" element ={isAuthenticated && isOnboarded ?(
+      {/* <Route path="/" element ={isAuthenticated && isOnboarded ?(
           <HomePage/>
           ) : (
           <Navigate to={isAuthenticated ? "/login" : "/onboarding"}/>
-          )} />
+          )} /> */}
       <Route
         path="/"
         element={
@@ -44,7 +46,9 @@ const App = () => {
           ) : !isOnboarded ? (
             <Navigate to="/onboarding" />
           ) : (
-            <HomePage />
+            <Layout showSidebar={true}>
+              <HomePage/>
+            </Layout>
           )
         }/>
       <Route 
