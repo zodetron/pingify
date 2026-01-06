@@ -17,7 +17,7 @@ const Layout = ({children,showSidebar = false}) => {
             
           </div>  
         </div>
-      Layout 1223323232334
+      Layout 
     </div>
   )
 }

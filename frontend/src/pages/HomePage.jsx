@@ -5,6 +5,7 @@ import { CheckCircle, CheckCircleIcon, MapIcon, MapPinIcon, UserIcon, UserPlusIc
 import { Link } from 'react-router';
 import FriendCard, { getLanguageFlag } from '../components/FriendCard';
 import NoFriendsFound from '../components/NoFriendsFound';
+import { capitalize } from '../lib/util';
 
 const HomePage = () => {
   const queryClient = useQueryClient();
@@ -175,4 +176,3 @@ const HomePage = () => {
 
 export default HomePage;
 
-export const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
