@@ -56,14 +56,13 @@ const acceptedRequests = friendRequests?.acceptedRequests || []
                           </div>
                             <h3 className='font-semibold'>{request.sender.fullName}</h3>
                             <div className='flex flex-wrap gap-1.5 mt-1'>
-                              <span className='badge badge-secondary badge'>
+                              <span className='badge badge-secondary badge-sm'>
                                 Native: {request.sender.nativeLanguage} 
                               </span>
-                              <span className='badge badge-outline badge'>
+                              <span className='badge badge-outline badge-sm'>
                                 Learning: {request.sender.learningLanguage} 
                               </span>
                             </div>
-                        </div>
 
                       <button
                         className='btn btn-primary btn-sm'
@@ -72,9 +71,13 @@ const acceptedRequests = friendRequests?.acceptedRequests || []
                         >
                         Accept
                       </button>
-                        </div>
+
+                      </div>
                     </div>
+                  </div>
+
                   ))}
+
                 </div>
 
               </section>
@@ -87,4 +90,4 @@ const acceptedRequests = friendRequests?.acceptedRequests || []
   )
 }
 
-export default NotificationsPage
+export default NotificationsPage;
