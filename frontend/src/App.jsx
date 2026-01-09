@@ -30,16 +30,8 @@ const App = () => {
   return (
     <div className='h-screen' data-theme={theme}>
 
-      {/* <LoginPage/> */}
-
     <Routes>
-      {/* <Route path="/test" element={<SignupPage/>}/> */}
 
-      {/* <Route path="/" element ={isAuthenticated && isOnboarded ?(
-          <HomePage/>
-          ) : (
-          <Navigate to={isAuthenticated ? "/login" : "/onboarding"}/>
-          )} /> */}
       <Route
         path="/"
         element={
@@ -56,11 +48,13 @@ const App = () => {
       <Route 
         path="/signup" 
         element ={
-          !isAuthenticated ?<SignupPage/>:<Navigate to={isOnboarded? "/" : "/onboarding"}/> } />
+          !isAuthenticated ?<SignupPage/>:<Navigate to={isOnboarded? "/" : "/onboarding"}/>
+        }/>
       <Route 
         path="/login" 
         element ={
-          !isAuthenticated ?<LoginPage/>:<Navigate to={isOnboarded? "/" : "/onboarding"} />} />
+      !isAuthenticated ?<LoginPage/>:<Navigate to={isOnboarded? "/" : "/onboarding"} />
+        }/>
 
       <Route 
         path="/notifications" 
@@ -69,11 +63,22 @@ const App = () => {
           <NotificationsPage/>
           </Layout>
         ) : (
-          <Navigate to={isAuthenticated ? "/login" : "/onboarding"}/>
-        )}/>
+          <Navigate to={isAuthenticated ? "/login" : "/onboarding"}/>)
+        }/>
 
       <Route path="/call" element ={isAuthenticated ?<CallPage/>:<Navigate to="/login"/>} />
-      <Route path="/chat" element ={isAuthenticated ?<ChatPage/>:<Navigate to="/login"/>} />
+
+      <Route 
+        path="/chat/:id" element ={
+          isAuthenticated && isOnboarded ? (
+            <Layout showSidebar={false}>
+              <ChatPage/>
+            </Layout>
+          ) : (
+            <Navigate to={!isAuthenticated ? "/login" : "/onboarding"}/>
+          )
+        }/>
+6
       <Route 
         path="/onboarding" element ={isAuthenticated ?(
           !isOnboarded ? (
@@ -82,8 +87,9 @@ const App = () => {
             <Navigate to="/"/>
           )
         ):(
-          <Navigate to="/login"/>
-        )} />
+          <Navigate to="/login"/>)
+        }/>
+
     </Routes>
 
     <Toaster/>
