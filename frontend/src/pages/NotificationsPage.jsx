@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import React from 'react'
 import { acceptFriendRequest, getFriendRequests } from '../lib/api';
 import {BellIcon, ClockIcon, MessageSquareIcon, UserCheckIcon} from 'lucide-react'
+import NoNotificationsFound from '../components/NoNotificationsFound';
 
 const NotificationsPage = () => {
   const queryClient = useQueryClient();
@@ -121,6 +122,10 @@ const acceptedRequests = friendRequests?.acceptedRequests || []
             ))}
             </div>
             </section>
+            )}
+
+            {incomingRequests.length === 0 && acceptedRequests.length === 0 && (
+            <NoNotificationsFound/>
             )}
           </>
         )}
