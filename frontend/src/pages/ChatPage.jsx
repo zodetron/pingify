@@ -15,20 +15,23 @@ import {
 } from "stream-chat-react";
 
 import { StreamChat } from 'stream-chat';
+import toast from 'react-hot-toast';
+import ChatLoader from '../components/ChatLoader';
+import dotenv from "dotenv";
 
 const STREAM_API_KEY = import.meta.env.VITE_STREAM_API_KEY
-
+console.log(STREAM_API_KEY);
 
 const ChatPage = () => {
   const {id:targetUserId} = useParams ();
 
   const [chatClient, setChatClient] = useState (null);
   const [channel, setChannel] = useState (null);
-  const [loading, setLoading] = useState (null);
+  const [loading, setLoading] = useState (true);
 
   const {authUser} = useAuthUser();
 
-  const {data} = useQuery({
+  const {data:tokenData} = useQuery({
     queryKey:["streamToken"],
     queryFn:getStreamToken,
     enabled: !!authUser //this will run only when authUser is available 
@@ -41,10 +44,10 @@ const ChatPage = () => {
         const client = StreamChat.getInstance(STREAM_API_KEY);
 
         await client.connectUser({
-          id: authUser._id,
-          name:authUser.fullName,
-          image:authUser.profilePic,
-        },tokenData.data)
+           id: authUser._id,
+           name: authUser.fullName,
+           image: authUser.profilePic,
+        },tokenData.token)
 
         //Create Channel
         const channelId = [authUser._id,targetUserId].sort().join("-");
@@ -64,18 +67,38 @@ const ChatPage = () => {
         
       } catch (error) {
         console.error("Error in initializing chat:",error);
+        toast.error("Could not connect to chat. Please try again.");
       } finally {
-        setLoading(false);
+        setLoading(false)
       }
     }
-    initChat();
-  },[]);
 
-  
+    initChat()
+
+    return () => {
+      if (chatClient) {
+        chatClient.disconnectUser()
+      }
+    }
+  }, [tokenData, authUser, targetUserId])
+
+  if (loading || !chatClient || !channel) return <ChatLoader />
 
   return (
-    <div>
-      Chat Page
+    <div className='h-[93vh]'>
+      <Chat client={chatClient}>
+        <Channel channel={channel}>
+          <div className='w-full relative'>
+            
+            <Window>
+              <ChannelHeader/>
+              <MessageList/>
+              <MessageInput focus/>
+            </Window>
+          </div>
+
+        </Channel>
+      </Chat>
     </div>
   )
 }
