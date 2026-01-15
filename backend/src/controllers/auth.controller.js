@@ -26,7 +26,8 @@ export async function signup(req,res){
         }
 
         const idx = Math.floor(Math.random() * 100)+1; //generate a random number from 1 to 100
-        const randomAvatar = `https://avatar.iran.liara.run/public/${idx}.png`;
+        // const randomAvatar = `https://avatar.iran.liara.run/public/${idx}.png`;
+        const randomAvatar = "https://xsgames.co/randomusers/avatar.php?g=pixel";
          
         const newUser = await User.create({
             email,

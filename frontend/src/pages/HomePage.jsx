@@ -113,7 +113,7 @@ const HomePage = () => {
 
                       <div className='flex items-center gap-3'>
                         <div className='avatar size-16 rounded-full'>
-                          <img src={user.profilePic} alt={user.fullName} />
+                          <img src={user.profilePic} alt={user.fullName} className="w-28 h-28 rounded-full object-cover" />
                         </div>
 
                         <div>

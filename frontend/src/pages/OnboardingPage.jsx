@@ -3,7 +3,7 @@ import useAuthUser from '../hooks/useAuthUser'
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 import { completeOnboarding } from '../lib/api';
-import { CameraIcon, LoaderIcon, MapPinIcon, ShipWheelIcon, ShuffleIcon } from 'lucide-react';
+import { CameraIcon, LoaderIcon, MapPinIcon, ShipWheelIcon, ShuffleIcon, UserIcon, UserRoundIcon } from 'lucide-react';
 import { LANGUAGES } from '../constants';
 
 const OnboardingPage = () => {
@@ -52,6 +52,33 @@ const OnboardingPage = () => {
       toast.success("Avatar changed successfully");
     }, 1000);
   }
+  const handleMaleAvatar = () =>{
+    const idx = Math.floor(Math.random()*50)+1; //1-100 included
+    const randomAvatar = `https://xsgames.co/randomusers/assets/avatars/male/${idx}.jpg`;
+
+    setFormState({...formState,profilePic:randomAvatar});
+    setTimeout(() => {
+      toast.success("Avatar changed successfully");
+    }, 1000);
+  }
+  const handleFemaleAvatar = () =>{
+    const idx = Math.floor(Math.random()*50)+1; //1-100 included
+    const randomAvatar = `https://xsgames.co/randomusers/assets/avatars/female/${idx}.jpg`;
+
+    setFormState({...formState,profilePic:randomAvatar});
+    setTimeout(() => {
+      toast.success("Avatar changed successfully");
+    }, 1000);
+  }
+  const handleArtAvatar = () =>{
+    const idx = Math.floor(Math.random()*50)+1; //1-100 included
+    const randomAvatar = `https://xsgames.co/randomusers/assets/avatars/pixel/${idx}.jpg`;
+
+    setFormState({...formState,profilePic:randomAvatar});
+    setTimeout(() => {
+      toast.success("Avatar changed successfully");
+    }, 1000);
+  }
   return (
     <div className='min-h-screen bg-base-100 flex items-center justify-center p-4'>
       <div className='card bg-base-200 w-full max-w-3xl shadow-xl'>
@@ -77,9 +104,23 @@ const OnboardingPage = () => {
               </div>
 
               {/* Generate random avatat button */}
-              <div className='flex items-center gap-2'>
+              {/* <div className='flex items-center gap-2'>
                 <button type='button' onClick={handleRandomAvatar} className='btn btn-accent'>
                   <ShuffleIcon className='size-4 mr-2'/>Generate Random Avatar
+                </button>
+              </div>
+            </div> */}
+
+            {/* New Avatar Generator */}
+            <div className='flex items-center gap-2'>
+                <button type='button' onClick={handleMaleAvatar} className='btn btn-accent'>
+                  <UserIcon className='size-4 mr-2'/>Male Avatar
+                </button>
+                <button type='button' onClick={handleArtAvatar} className='btn btn-accent'>
+                  <UserRoundIcon className='size-4 mr-2'/>Artistic Avatar
+                </button>
+                <button type='button' onClick={handleFemaleAvatar} className='btn btn-accent'>
+                  <UserRoundIcon className='size-4 mr-2'/>Female Avatar
                 </button>
               </div>
             </div>

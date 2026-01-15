@@ -16,8 +16,7 @@ const Layout = ({children,showSidebar = false}) => {
             </main>
             
           </div>  
-        </div>
-      Layout 
+        </div> 
     </div>
   )
 }
