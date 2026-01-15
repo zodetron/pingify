@@ -4,19 +4,23 @@ import Navbar from './Navbar.jsx';
 
 const Layout = ({children,showSidebar = false}) => {
   return (
-    <div className='min-h-screen '>
-        <div className='flex'>
-          {showSidebar && <Sidebar/>}
+    <div className='min-h-screen w-full relative'>
+        {/* Theme-based gradient background overlay */}
+        <div className='fixed inset-0 pointer-events-none -z-10'>
+          <div className='absolute inset-0 opacity-[0.03]' style={{ background: 'var(--theme-gradient)' }} />
+        </div>
+        
+        {/* Fixed Sidebar */}
+        {showSidebar && <Sidebar/>}
+        
+        {/* Main Content Area */}
+        <div className={`min-h-screen flex flex-col ${showSidebar ? 'lg:ml-64' : ''}`}>
+          <Navbar/>
 
-          <div className='flex-1 flex flex-col'>
-            <Navbar/>
-
-            <main className='flex-1 overflow-y-auto'>
-                {children}
-            </main>
-            
-          </div>  
-        </div> 
+          <main className='flex-1 w-full overflow-y-auto'>
+              {children}
+          </main>
+        </div>
     </div>
   )
 }

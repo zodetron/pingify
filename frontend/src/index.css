@@ -2,11 +2,243 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Custom scrollbar styles */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(155, 155, 155, 0.5);
+  border-radius: 20px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(155, 155, 155, 0.7);
+}
+
+/* Gradient utilities */
+@layer utilities {
+  .gradient-primary {
+    background: var(--theme-gradient);
+  }
+  
+  .gradient-text {
+    background: var(--theme-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .gradient-border {
+    position: relative;
+    background: hsl(var(--b2));
+  }
+
+  .gradient-border::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 2px;
+    background: var(--theme-gradient);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+
+  .gradient-overlay {
+    position: relative;
+  }
+
+  .gradient-overlay::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--theme-gradient);
+    opacity: 0.1;
+    pointer-events: none;
+    border-radius: inherit;
+  }
+
+  .gradient-hover {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .gradient-hover::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--theme-gradient);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+  }
+
+  .gradient-hover:hover::before {
+    opacity: 0.15;
+  }
+
+  .glass-effect {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .shimmer {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .shimmer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    animation: shimmer 2s infinite;
+  }
+
+  @keyframes shimmer {
+    100% {
+      left: 100%;
+    }
+  }
+
+  /* Gradient card styles */
+  .card-gradient {
+    background: linear-gradient(135deg, hsl(var(--b2)) 0%, hsl(var(--b3)) 100%);
+    position: relative;
+  }
+
+  .card-gradient::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--theme-gradient);
+    opacity: 0.05;
+    pointer-events: none;
+    border-radius: inherit;
+  }
+}
+
+/* Enhanced base styles */
+@layer base {
+  /* Reset and prevent unwanted spacing */
+  html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+  }
+  
+  body {
+    @apply bg-base-100 text-base-content;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  /* Root container */
+  #root {
+    min-height: 100vh;
+    width: 100%;
+    overflow-x: hidden;
+  }
+
+  /* Box sizing for all elements */
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+}
+
+/* Theme-based gradient definitions */
+[data-theme="light"] { --theme-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+[data-theme="dark"] { --theme-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+[data-theme="cupcake"] { --theme-gradient: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%); }
+[data-theme="forest"] { --theme-gradient: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%); }
+[data-theme="bumblebee"] { --theme-gradient: linear-gradient(135deg, #f6d365 0%, #fda085 100%); }
+[data-theme="emerald"] { --theme-gradient: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); }
+[data-theme="corporate"] { --theme-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+[data-theme="synthwave"] { --theme-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+[data-theme="retro"] { --theme-gradient: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%); }
+[data-theme="cyberpunk"] { --theme-gradient: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
+[data-theme="valentine"] { --theme-gradient: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%); }
+[data-theme="halloween"] { --theme-gradient: linear-gradient(135deg, #fc6c44 0%, #ff9068 100%); }
+[data-theme="garden"] { --theme-gradient: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); }
+[data-theme="aqua"] { --theme-gradient: linear-gradient(135deg, #30cfd0 0%, #330867 100%); }
+[data-theme="lofi"] { --theme-gradient: linear-gradient(135deg, #434343 0%, #000000 100%); }
+[data-theme="pastel"] { --theme-gradient: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%); }
+[data-theme="fantasy"] { --theme-gradient: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
+[data-theme="wireframe"] { --theme-gradient: linear-gradient(135deg, #e0e0e0 0%, #b0b0b0 100%); }
+[data-theme="black"] { --theme-gradient: linear-gradient(135deg, #434343 0%, #000000 100%); }
+[data-theme="luxury"] { --theme-gradient: linear-gradient(135deg, #d4a85a 0%, #94589c 100%); }
+[data-theme="dracula"] { --theme-gradient: linear-gradient(135deg, #bd93f9 0%, #ff79c6 100%); }
+[data-theme="cmyk"] { --theme-gradient: linear-gradient(135deg, #0891b2 0%, #ec4899 50%, #facc15 100%); }
+[data-theme="autumn"] { --theme-gradient: linear-gradient(135deg, #f28c18 0%, #8c1f11 100%); }
+[data-theme="business"] { --theme-gradient: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%); }
+[data-theme="acid"] { --theme-gradient: linear-gradient(135deg, #ff00f2 0%, #ff7a00 50%, #99ff01 100%); }
+[data-theme="lemonade"] { --theme-gradient: linear-gradient(135deg, #f5d742 0%, #67e8f9 100%); }
+[data-theme="night"] { --theme-gradient: linear-gradient(135deg, #0f172a 0%, #38bdf8 100%); }
+[data-theme="coffee"] { --theme-gradient: linear-gradient(135deg, #dd9866 0%, #497174 100%); }
+[data-theme="winter"] { --theme-gradient: linear-gradient(135deg, #0284c7 0%, #d946ef 100%); }
+[data-theme="dim"] { --theme-gradient: linear-gradient(135deg, #10b981 0%, #ff5a5f 100%); }
+[data-theme="nord"] { --theme-gradient: linear-gradient(135deg, #5e81ac 0%, #81a1c1 100%); }
+[data-theme="sunset"] { --theme-gradient: linear-gradient(135deg, #f5734c 0%, #ec4899 100%); }
+
+/* Layout utilities */
+@layer components {
+  /* Prevent layout shift and overflow */
+  .layout-container {
+    min-height: 100vh;
+    width: 100%;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Main content area should fill available space */
+  .main-content {
+    flex: 1;
+    width: 100%;
+    overflow-y: hidden;
+    overflow-x: auto;
+  }
+
+  /* Sidebar should be full height but scrollable */
+  .sidebar-container {
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    overflow-y: auto;
+    flex-shrink: 0;
+  }
+
+  /* Navbar should stay at top */
+  .navbar-container {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    flex-shrink: 0;
+  }
+}
+
+/* Stream Chat custom styles with theme awareness */
 .str-chat__channel {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(to bottom, #c9e8c9, #b7e7bb);
+  background: linear-gradient(135deg, 
+    hsl(var(--b1) / 0.95) 0%, 
+    hsl(var(--b2) / 0.95) 100%
+  );
   height: 100%;
 }
 
@@ -15,13 +247,14 @@
   width: 100%;
   height: 80% !important;
   margin: 0 auto !important;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
   overflow: hidden;
+  border: 1px solid hsl(var(--bc) / 0.1);
 }
 
 .str-chat__list {
-  background-color: #ffffff;
+  background-color: hsl(var(--b1));
   padding: 12px;
 }
 
@@ -30,5 +263,105 @@
 }
 
 .str-chat__message-input {
-  border-top: 1px solid #ddd;
+  border-top: 1px solid hsl(var(--bc) / 0.1);
+  background: hsl(var(--b2) / 0.5);
+  backdrop-filter: blur(10px);
+}
+
+
+/* Tech Stack Selector Styles */
+.tech-selector-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 0.75rem;
+  max-height: 400px;
+  overflow-y: auto;
+  padding: 0.5rem;
+}
+
+.tech-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  border-radius: 1rem;
+  border: 2px solid transparent;
+  background: hsl(var(--b3) / 0.5);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-height: 100px;
+}
+
+.tech-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  border-color: hsl(var(--p) / 0.3);
+}
+
+.tech-card.selected {
+  border-color: hsl(var(--p));
+  background: hsl(var(--p) / 0.1);
+  box-shadow: 0 4px 12px hsl(var(--p) / 0.3);
+}
+
+.tech-card i {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  transition: transform 0.3s ease;
+}
+
+.tech-card:hover i {
+  transform: scale(1.1);
+}
+
+.tech-card-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-align: center;
+  color: hsl(var(--bc));
+  line-height: 1.2;
+}
+
+.tech-card.selected .tech-card-label {
+  color: hsl(var(--p));
+}
+
+.tech-card-check {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 50%;
+  background: hsl(var(--su));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: scale(0);
+  transition: all 0.3s ease;
+}
+
+.tech-card.selected .tech-card-check {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Devicon color overrides for dark mode compatibility */
+[data-theme="dark"] .devicon,
+[data-theme="night"] .devicon,
+[data-theme="black"] .devicon,
+[data-theme="dracula"] .devicon,
+[data-theme="luxury"] .devicon,
+[data-theme="forest"] .devicon,
+[data-theme="halloween"] .devicon,
+[data-theme="coffee"] .devicon,
+[data-theme="dim"] .devicon,
+[data-theme="synthwave"] .devicon,
+[data-theme="cyberpunk"] .devicon,
+[data-theme="aqua"] .devicon,
+[data-theme="lofi"] .devicon {
+  filter: brightness(1.2);
 }

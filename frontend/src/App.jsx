@@ -4,6 +4,7 @@ import HomePage from "./pages/HomePage.jsx";
 import LoginPage from "./pages/LoginPage.jsx";
 import SignupPage from "./pages/SignupPage.jsx";
 import NotificationsPage from "./pages/NotificationsPage.jsx";
+import FriendsPage from "./pages/FriendsPage.jsx";
 import CallPage from "./pages/CallPage.jsx";
 import ChatPage from "./pages/ChatPage.jsx";
 import OnboardingPage from "./pages/OnboardingPage.jsx";
@@ -28,7 +29,7 @@ const App = () => {
 
 
   return (
-    <div className='h-screen' data-theme={theme}>
+    <div className='min-h-screen w-full overflow-x-hidden transition-colors duration-300' data-theme={theme}>
 
     <Routes>
 
@@ -66,6 +67,16 @@ const App = () => {
           <Navigate to={isAuthenticated ? "/login" : "/onboarding"}/>)
         }/>
 
+      <Route 
+        path="/friends" 
+        element ={isAuthenticated && isOnboarded ? (
+        <Layout showSidebar={true}>
+          <FriendsPage/>
+          </Layout>
+        ) : (
+          <Navigate to={!isAuthenticated ? "/login" : "/onboarding"}/>)
+        }/>
+
       <Route path="/call/:id" element ={
         isAuthenticated && isOnboarded ? (
               <CallPage/>
@@ -99,7 +110,29 @@ const App = () => {
 
     </Routes>
 
-    <Toaster/>
+    <Toaster
+      position="top-center"
+      toastOptions={{
+        duration: 3000,
+        style: {
+          background: 'hsl(var(--b2))',
+          color: 'hsl(var(--bc))',
+          border: '1px solid hsl(var(--bc) / 0.1)',
+        },
+        success: {
+          iconTheme: {
+            primary: 'hsl(var(--su))',
+            secondary: 'white',
+          },
+        },
+        error: {
+          iconTheme: {
+            primary: 'hsl(var(--er))',
+            secondary: 'white',
+          },
+        },
+      }}
+    />
 
     </div>
   )
